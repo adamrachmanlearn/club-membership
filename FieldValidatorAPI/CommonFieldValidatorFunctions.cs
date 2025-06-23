@@ -12,6 +12,7 @@ namespace FieldValidatorAPI
     public delegate bool DateValidDel(string fieldVal, out DateTime validDateTime);
     public delegate bool PatternMatchDel(string fieldVal, string pattern);
     public delegate bool CompareFieldsValidDel(string fieldVal, string fieldValCompare);
+
     public class CommonFieldValidatorFunctions
     {
         private static RequiredValidDel _requiredValidDel = null;
@@ -19,6 +20,61 @@ namespace FieldValidatorAPI
         private static DateValidDel _dateValidDel = null;
         private static PatternMatchDel _patternMatchDel = null;
         private static CompareFieldsValidDel _compareFieldsValidDel = null;
+
+        public static RequiredValidDel RequiredValidDel
+        {
+            get
+            {
+                if (_requiredValidDel == null)
+                    _requiredValidDel = new RequiredValidDel(RequiredFieldValid);
+
+                return _requiredValidDel;
+            }
+        }
+        
+        public static StringLengthValidDel StringLengthValidDel
+        {
+            get
+            {
+                if (_stringLengthValidDel == null)
+                    _stringLengthValidDel = new StringLengthValidDel(StringFieldLengthValid);
+
+                return _stringLengthValidDel;
+            }
+        }
+        
+        public static DateValidDel DateValidDel
+        {
+            get
+            {
+                if (_dateValidDel == null)
+                    _dateValidDel = new DateValidDel(DateFieldValid);
+
+                return _dateValidDel;
+            }
+        }
+        
+        public static PatternMatchDel PatternMatchDel
+        {
+            get
+            {
+                if (_patternMatchDel == null)
+                    _patternMatchDel = new PatternMatchDel(FieldPatternValid);
+
+                return _patternMatchDel;
+            }
+        }
+        
+        public static CompareFieldsValidDel CompareFieldsValidDel
+        {
+            get
+            {
+                if (_compareFieldsValidDel == null)
+                    _compareFieldsValidDel = new CompareFieldsValidDel(FieldComparisonValid);
+
+                return _compareFieldsValidDel;
+            }
+        }
 
         private static bool RequiredFieldValid(string fieldVal)
         {
